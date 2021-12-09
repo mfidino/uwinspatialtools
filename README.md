@@ -46,6 +46,9 @@ devtools::install_github("mfidino/uwinspatialtools")
 
 ---
 
-Mason Fidino is the sole contributing author of `uwinspatialtools`. If you
-are interested in contributing, see [Contributor Guidelines](CONTRIBUTING.md).
+Mason Fidino is the sole contributing author of `uwinspatialtools`. 
+
+The functions `uwinspatialtools::extract_raster_prop()` and `uwinspatialtools::extract_polygon()` are based on some code written by Travis Gallo during his postdoc at the Urban Wildlife Institute.
+
+If you are interested in contributing, see [Contributor Guidelines](CONTRIBUTING.md).
 
