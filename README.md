@@ -47,5 +47,5 @@ devtools::install_github("mfidino/uwinspatialtools")
 ---
 
 Mason Fidino is the sole contributing author of `uwinspatialtools`. If you
-are interested in contributing, see [Contributor Guidelines](https://github.com/mfidino/uwinspatialtools/main/CONTRIBUTING.md).
+are interested in contributing, see [Contributor Guidelines](CONTRIBUTING.md).
 
