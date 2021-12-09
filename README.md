@@ -22,7 +22,7 @@ This package is a starting point for a suite of common spatial analyses that
 I need to perform for the Urban Wildlife Information Network(UWIN, hence the package name). UWIN is  which is a partnership of researchers who use the wildlife monitoring protocols created at Lincoln Park Zoo's Urban Wildlife Institute to understand the ecology and behavior of urban species. By comparing data throughout the network, we can understand differences in animal behavior across regions and find patterns that remain consistent around the globe. And to do that, it makes
 sense to start compiling spatial data for different analyses in a standard format.
 
-## Status: Experimental, active developement.
+## Status: Experimental, active developement
 
 ---
 
