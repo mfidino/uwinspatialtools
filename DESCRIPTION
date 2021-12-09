@@ -1,11 +1,13 @@
 Package: uwinspatialtools
 Type: Package
-Title: Summarises spatial data in a specified buffer around points for rasters and shapefiles.
+Title: Summarises spatial data in a specified buffer around points for rasters and shapefiles
 Version: 0.1.0
 Author: Mason Fidino
 Maintainer: Mason Fidino <mfidino@lpzoo.org>
-Description: This package is an attempt at trying to streamline some of the disparte code I have written for a number of projects. For the Urban Wildlife Information Network (UWIN), we often have to summarise data around camera trapping locations for varying analyses. The functions here do just that, and at least for raster data, does so (in my experience) relatively quickly.
-License: MIT
+Description:  For the Urban Wildlife Information Network (UWIN),
+    we often have to summarise data around camera trapping locations
+    for varying analyses. The functions here do just that.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 
