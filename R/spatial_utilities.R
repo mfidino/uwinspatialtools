@@ -45,9 +45,6 @@
 #'                   to the returned object. If NULL, then all
 #'                   categories will be returned.
 #'
-#' @import sf
-#' @import raster
-#' @importFrom cli cli_h1 cli_alert_success
 #' @export
 
 
@@ -86,12 +83,14 @@ cli::cli_h1("Reprojecting my_points to map projection")
   }
 
   cli::cli_h1("Extracting spatial data")
-  prop_extract <- raster::extract(
-    my_raster_data,
-    points_RP,
-    fun=spatial_summary,
-    buffer= my_buffer,
-    na.rm = TRUE
+  prop_extract <- suppressWarnings(
+    raster::extract(
+      my_raster_data,
+      points_RP,
+      fun=spatial_summary,
+      buffer= my_buffer,
+      na.rm = TRUE
+    )
   )
 
 
@@ -122,7 +121,11 @@ cli::cli_h1("Reprojecting my_points to map projection")
         )
       }
     )
-    prop_extract <- t(prop_extract)
+    if(length(lulc_cats) == 1){
+      prop_extract <- t(t(prop_extract))
+    }else{
+      prop_extract <- t(prop_extract)
+    }
   }
 
   # if it is a numeric
@@ -186,10 +189,8 @@ cli::cli_h1("Reprojecting my_points to map projection")
 #' @param layers  A character vector of column names from my_shape
 #'                          to summarise. Optional. If NULL, all numeric
 #'                          columns are summarised.
-#' @import sf
-#' @importFrom cli cli_h1 cli_alert_success
+#' @importFrom rlang .data
 #' @importFrom magrittr %>%
-#' @importFrom dplyr group_by mutate_if arrange summarise_at
 #' @export
 
 
@@ -240,10 +241,13 @@ extract_polygon <- function(
   )
 
   # Extract population layer features that are contained within each buffers
-  shp_intersection <- sf::st_intersection(
-    points_buffer,
-    my_shape
+  shp_intersection <- suppressWarnings(
+    sf::st_intersection(
+      points_buffer,
+      my_shape
+    )
   )
+
 
   # Summarise the data if layers is not null
   if(!is.null(layers)){
@@ -264,7 +268,7 @@ extract_polygon <- function(
                            sf::st_area(
                              points_buffer
                            ),
-                           km^2
+                           "km^2"
                          )
                        }
       ) %>%
@@ -275,7 +279,7 @@ extract_polygon <- function(
       # remove spatial geometry so you are left with a data frame
       sf::st_set_geometry(NULL) %>%
       # group by Location Name
-      group_by(.data[[location_column]]) %>%
+      dplyr::group_by(.data[[location_column]]) %>%
       # sum all the intersected pieces to get total housing units in each buffer
       dplyr::summarise_if(is.numeric, .funs = sum) %>%
       # divide by area of buffer, converting to km^2
@@ -288,7 +292,7 @@ extract_polygon <- function(
                            sf::st_area(
                              points_buffer
                            ),
-                           km^2
+                           "km^2"
                          )
                        }
       )

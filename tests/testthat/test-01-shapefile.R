@@ -1,16 +1,21 @@
-context("Test extract_polygon")
+testthat::context("Test extract_polygon")
 
-test_that(
+testthat::test_that(
   "extract_polygon",
   {
     library(sf)
-    nc <- sf::st_read(system.file("shape/nc.shp", package="sf"))
+    nc <- sf::st_read(
+      system.file("shape/nc.shp", package="sf"),
+      quiet = TRUE
+    )
+
     nc <- sf::st_transform(
       nc,
       crs = 32617
     )
-    ncg <- st_geometry(nc)
-    cntrd <- st_centroid(ncg)
+    bounds <- sf::st_bbox(nc)
+    ncg <- sf::st_geometry(nc)
+    cntrd <- sf::st_centroid(ncg)
     # randomly sample 5
     set.seed(663)
     cntrd <- cntrd[sample(1:length(cntrd), 5)]
@@ -50,10 +55,11 @@ test_that(
         layers = layers
       )
     }
-    expect_warning(
-      f(cndat, "sites", 0.01, nc, "AREA")
+    testthat::expect_s3_class(
+      f(cndat, "sites", 0.01, nc, "AREA"),
+      "data.frame"
     )
-    expect_error(
+    testthat::expect_error(
       f(cndat, "LocationName", 0.01, nc, "AREA")
     )
   }
