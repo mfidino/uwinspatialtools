@@ -14,7 +14,7 @@
 raster image within some user specified buffer around a set of locations. The 
 function that does this is called `extract_raster_prop()`.
 
-2. Calculates the average value per unit<sup>2</sup> from a shapefile of different
+2. Calculates the average value per unit<sup>2</sup> of different
 layers of a shapefile that intersect some user specified buffer around a set
 or locations. The function that does this is called `extract_polygon()`.
 
