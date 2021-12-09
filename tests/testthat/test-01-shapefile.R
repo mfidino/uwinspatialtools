@@ -56,11 +56,28 @@ testthat::test_that(
       )
     }
     testthat::expect_s3_class(
-      f(cndat, "sites", 0.01, nc, "AREA"),
+      f(cndat, "sites", 0.01, nc, c("AREA", "hotdog")),
+      "data.frame"
+    )
+    testthat::expect_warning(
+        f(cndat, "sites", 0.01, nc, c("AREA", "hotdog"))
+    )
+    testthat::expect_s3_class(
+      f(cndat, "sites", 0.01, nc, NULL),
+      "data.frame"
+    )
+    testthat::expect_s3_class(
+      f(cndat, 1, 0.01, nc, "AREA"),
       "data.frame"
     )
     testthat::expect_error(
       f(cndat, "LocationName", 0.01, nc, "AREA")
+    )
+    testthat::expect_error(
+      f(cndat, 1, 0.01, nc, nc)
+    )
+    testthat::expect_error(
+      f(cndat, 1, 0.01, "burrito", "AREA")
     )
   }
 

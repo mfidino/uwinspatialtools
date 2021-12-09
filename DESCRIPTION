@@ -4,7 +4,7 @@ Title: Summarises spatial data in a specified buffer around points for rasters a
 Version: 0.1.0
 Author: Mason Fidino
 Maintainer: Mason Fidino <mfidino@lpzoo.org>
-Description:  For the Urban Wildlife Information Network (UWIN),
+Description: For the Urban Wildlife Information Network (UWIN),
     we often have to summarise data around camera trapping locations
     for varying analyses. The functions here do just that.
 License: MIT + file LICENSE
@@ -21,3 +21,5 @@ Imports:
     units,
     rlang
 RoxygenNote: 7.1.0
+Suggests: 
+    covr

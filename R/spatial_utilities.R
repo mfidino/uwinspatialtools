@@ -131,9 +131,10 @@ cli::cli_h1("Reprojecting my_points to map projection")
   # if it is a numeric
   if(is.numeric(lulc_cats)){
     prop_extract <- prop_extract[,lulc_cats]
-    if(!is.null(names(lulc_cats))){
+  }
+  # if it's a names list
+  if(!is.null(names(lulc_cats)) & is.list(lulc_cats)){
       colnames(prop_extract) <- names(lulc_cats)
-    }
   }
 
   # create dataframe matching the sites with the extracted data
@@ -214,7 +215,7 @@ extract_polygon <- function(
     if(!all(layers %in% colnames(my_shape))){
       warn <- paste("\nWarning: 'my_shape' did not have all layers specified in",
                     "'layers' argument.\nMissing elements in 'layers' were",
-                    "removed'.")
+                    "removed'.\n")
       # drop the elements in layer that lack columns in my_shape
       layers <- layers[which(layers %in% colnames(my_shape))]
       if(length(layers) == 0){
@@ -299,13 +300,7 @@ extract_polygon <- function(
 
   }
   if(!is.null(warn)){
-    cat(
-      cli::bg_black(
-        cli::col_yellow(
-          warn
-        )
-      )
-    )
+    warning(warn)
   }
   cli::cli_alert_success("Spatial data extracted")
   return(summary_data)

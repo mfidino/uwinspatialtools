@@ -42,7 +42,7 @@ testthat::test_that(
         location_column = "names",
         my_buffer = 0.03,
         my_raster_data = mat,
-        lulc_cats = list("forest" = c(1,2))
+        lulc_cats = list(forest = c(1,2))
       ),
       "data.frame"
     )
@@ -73,6 +73,16 @@ testthat::test_that(
         my_buffer = 0.03,
         my_raster_data = mat,
         lulc_cats = NULL
+      ),
+      "data.frame"
+    )
+    testthat::expect_s3_class(
+      f(
+        my_points = sites,
+        location_column = 1,
+        my_buffer = 0.03,
+        my_raster_data = mat,
+        lulc_cats = 1:3
       ),
       "data.frame"
     )
