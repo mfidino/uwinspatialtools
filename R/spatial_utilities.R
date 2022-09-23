@@ -240,14 +240,43 @@ extract_polygon <- function(
     points_RP,
     dist = my_buffer
   )
+  my_shape$row <- 1:nrow(my_shape)
 
   # Extract population layer features that are contained within each buffers
+  tmp1 <- sf::st_intersects(
+    points_buffer,
+    my_shape
+  )
+  tmp1 <- lapply(
+    1:length(tmp1),
+    function(y){
+        my_shape[tmp1[[y]],]
+    }
+  )
+  tmp1 <- dplyr::distinct(
+    dplyr::bind_rows(
+      tmp1
+      )
+  )
+  tmp1$area <- sf::st_area(
+    tmp1
+  )
   shp_intersection <- suppressWarnings(
     sf::st_intersection(
       points_buffer,
-      my_shape
+      tmp1
     )
   )
+  # get area of each intersection
+  shp_intersection$ins_area <- sf::st_area(
+    shp_intersection
+  )
+
+  shp_intersection$weight <- shp_intersection$ins_area /
+    shp_intersection$area
+
+  shp_intersection <- shp_intersection %>%
+    dplyr::mutate_if(is.numeric, .funs = function(x) x * .$weight)
 
 
   # Summarise the data if layers is not null
@@ -272,10 +301,11 @@ extract_polygon <- function(
                            "km^2"
                          )
                        }
-      ) %>%
+      )  %>%
       dplyr::arrange(.data[[location_column]])
 
   } else {
+    # locate numeric columns
     summary_data <- shp_intersection %>%
       # remove spatial geometry so you are left with a data frame
       sf::st_set_geometry(NULL) %>%
