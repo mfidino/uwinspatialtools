@@ -16,10 +16,10 @@ Imports:
     cli,
     dplyr,
     magrittr,
-    testthat,
-    sp,
     units,
     rlang
-RoxygenNote: 7.1.0
+RoxygenNote: 7.2.1
 Suggests: 
-    covr
+    covr,
+    testthat,
+    sp,

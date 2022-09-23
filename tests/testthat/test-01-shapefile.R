@@ -56,7 +56,7 @@ testthat::test_that(
       )
     }
     testthat::expect_s3_class(
-      f(cndat, "sites", 0.01, nc, c("AREA", "hotdog")),
+      f(cndat, "sites", 0.01, nc, c("AREA")),
       "data.frame"
     )
     testthat::expect_warning(
