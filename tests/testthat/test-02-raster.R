@@ -3,7 +3,7 @@ testthat::context("Test extract_raster_prop")
 testthat::test_that(
   "extract_raster_prop",
   {
-    library(raster)
+    library(terra)
     library(sf)
     set.seed(444)
     mat <- matrix(
@@ -11,10 +11,10 @@ testthat::test_that(
       100,
       100
     )
-    mat <- raster::raster(
+    mat <- terra::rast(
       mat
     )
-    raster::crs(mat) <- sp::CRS("+init=epsg:32616")
+    terra::crs(mat) <- "+init=epsg:32616"
 
     sites <- data.frame(
       names = LETTERS[1:20],
@@ -40,7 +40,7 @@ testthat::test_that(
       f(
         my_points = sites,
         location_column = "names",
-        my_buffer = 0.03,
+        my_buffer = 10,
         my_raster_data = mat,
         lulc_cats = list(forest = c(1,2))
       ),
@@ -50,7 +50,7 @@ testthat::test_that(
       f(
         my_points = sites,
         location_column = "names",
-        my_buffer = 0.03,
+        my_buffer = 10,
         my_raster_data = mat,
         lulc_cats = list(forest = c(1,2),imperv = 3, urban = c(7:10))
       ),
@@ -60,7 +60,7 @@ testthat::test_that(
       f(
         my_points = sites,
         location_column = "names",
-        my_buffer = 0.03,
+        my_buffer = 10,
         my_raster_data = mat,
         lulc_cats = list(forest = c(1,2))
       ),
@@ -70,7 +70,7 @@ testthat::test_that(
       f(
         my_points = sites,
         location_column = "names",
-        my_buffer = 0.03,
+        my_buffer = 10,
         my_raster_data = mat,
         lulc_cats = NULL
       ),
@@ -80,7 +80,7 @@ testthat::test_that(
       f(
         my_points = sites,
         location_column = 1,
-        my_buffer = 0.03,
+        my_buffer = 10,
         my_raster_data = mat,
         lulc_cats = 1:3
       ),
@@ -90,7 +90,7 @@ testthat::test_that(
       f(
         my_points = sites,
         location_column = "names",
-        my_buffer = 0.03,
+        my_buffer = 10,
         my_raster_data = mat,
         lulc_cats = 1:3
       ),
@@ -101,7 +101,7 @@ testthat::test_that(
       f(
         my_points = sites,
         location_column = "name",
-        my_buffer = 0.03,
+        my_buffer = 10,
         my_raster_data = mat,
         lulc_cats = NULL
       )
@@ -110,7 +110,7 @@ testthat::test_that(
       f(
         my_points = sites,
         location_column = "names",
-        my_buffer = 0.03,
+        my_buffer = 10,
         my_raster_data = mat,
         lulc_cats = 11
       )
