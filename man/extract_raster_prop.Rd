@@ -22,7 +22,7 @@ or an integer that specifies it's column location.}
 
 \item{my_buffer}{The radius of a buffer around each point form which}
 
-\item{my_raster_data}{A raster object that you want to extract data
+\item{my_raster_data}{A SpatRaster object that you want to extract data
 from.}
 
 \item{lulc_cats}{Land-use land-cover categories.
