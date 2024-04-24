@@ -13,7 +13,7 @@ library(uwinspatialtools)
 # Data avaliable in same github repo
 # Columns: LocationName, UTM_E, UTM_N, UTMZone, City
 site_coords <- read.csv(
-  "./data/2019-04-25_SampleChicagoSites.csv",
+  "./examples/2019-04-25_SampleChicagoSites.csv",
   stringsAsFactors = FALSE
 )
 
