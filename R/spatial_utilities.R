@@ -66,43 +66,20 @@ cli::cli_h1("Reprojecting my_points to map projection")
 
   cli::cli_alert_success("my_points reprojected")
 
+  points_RP <- sf::st_buffer(
+    points_RP,
+    dist = my_buffer
+  )
   # Step 2.
-  # use the raster::extract function to extract the mean value of the raster data
-  # within a particular buffer around each site.
-  # We need a sub-function to calculate the proportion of each category
-  spatial_summary <- function(
-    x,
-    ncats = my_raster_data@data@max,
-    ...
-  ){
-    return(
-      prop.table(
-        tabulate(x, ncats)
-      )
-    )
-  }
 
   cli::cli_h1("Extracting spatial data")
   prop_extract <- suppressWarnings(
-    raster::extract(
+    exactextractr::exact_extract(
       my_raster_data,
       points_RP,
-      fun=spatial_summary,
-      buffer= my_buffer,
-      na.rm = TRUE
+      fun="frac"
     )
   )
-
-
-  if(is.numeric(prop_extract)){
-    prop_extract <- matrix(
-      prop_extract,
-      ncol = my_raster_data@data@max,
-      nrow = nrow(points_RP),
-      byrow = TRUE
-    )
-  }
-
 
   # if lulc_cats is a list
   if(is.list(lulc_cats)){

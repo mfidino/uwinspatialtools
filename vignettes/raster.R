@@ -36,7 +36,8 @@ my_raster_path <-
 
 
 # read it in
-my_map <- raster::raster(my_raster_path)
+my_map <- terra::rast(my_raster_path)
+
 
 #  For this example we will extract the proportion canopy cover (lulc class 1)
 #    and create our own 'impervious cover' value, which is the sum of multiple
