@@ -12,7 +12,8 @@ Encoding: UTF-8
 LazyData: true
 Imports: 
     sf,
-    raster,
+    terra,
+    exactextractr,
     cli,
     dplyr,
     magrittr,
