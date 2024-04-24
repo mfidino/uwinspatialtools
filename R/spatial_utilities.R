@@ -24,7 +24,7 @@
 #                           Otherwise it should be in map units, which is also
 #                           typically meters.
 #'
-#' @param my_raster_data A raster object that you want to extract data
+#' @param my_raster_data A SpatRaster object that you want to extract data
 #'                             from.
 #'
 #' @param lulc_cats Land-use land-cover categories.
