@@ -49,6 +49,7 @@ lulc_prop <- extract_raster_prop(
   my_raster_data = my_map,
   lulc_cats = list(
     "tree" = 1,
-    "imperv" = 5:7
+    "imperv" = 5:7,
+    "fail" = 8
   )
 )

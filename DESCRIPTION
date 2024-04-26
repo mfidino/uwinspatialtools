@@ -17,10 +17,11 @@ Imports:
     dplyr,
     magrittr,
     units,
-    rlang
+    rlang,
+    terra,
+    methods
 RoxygenNote: 7.2.3
 Suggests: 
     covr,
     testthat,
-    sp,
-    terra
+    sp

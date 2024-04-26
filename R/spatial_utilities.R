@@ -55,6 +55,39 @@ extract_raster_prop <- function(
   my_raster_data,
   lulc_cats = NULL
 ){
+  # qaqc checks.
+
+  available_lulc <- c(
+    methods::slot(
+      my_raster_data,
+      methods::slotNames(my_raster_data)[1]
+    )$range_min,
+    methods::slot(
+      my_raster_data,
+      methods::slotNames(my_raster_data)[1]
+    )$range_max
+  )
+  available_lulc <- seq.int(
+    available_lulc[1],
+    available_lulc[2]
+  )
+
+  if(
+    !all(
+      unique(
+        unlist(
+          lulc_cats
+        )
+      ) %in%
+      available_lulc
+    )
+  ){
+    stop("You included a numeric landcover class that is not in my_raster_data.")
+  }
+
+  tmp_lulc_cats <- unique(
+    unlist(
+      lulc_cats))
 
   sites <- my_points[,location_column]
 
@@ -104,7 +137,7 @@ cli::cli_h1("Reprojecting my_points to map projection")
             ifelse(
               length(y) == 1,
               x[y],
-              sum(x[y])
+              sum(x[y], na.rm = TRUE)
             )
         )
       }
@@ -327,4 +360,7 @@ extract_polygon <- function(
   return(summary_data)
 }
 
+ignore_unused_imports <- function() {
+  terra::rast()
+}
 
