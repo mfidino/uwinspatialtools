@@ -55,6 +55,39 @@ extract_raster_prop <- function(
   my_raster_data,
   lulc_cats = NULL
 ){
+  # qaqc checks.
+
+  available_lulc <- c(
+    methods::slot(
+      my_raster_data,
+      methods::slotNames(my_raster_data)[1]
+    )$range_min,
+    methods::slot(
+      my_raster_data,
+      methods::slotNames(my_raster_data)[1]
+    )$range_max
+  )
+  available_lulc <- seq.int(
+    available_lulc[1],
+    available_lulc[2]
+  )
+
+  if(
+    !all(
+      unique(
+        unlist(
+          lulc_cats
+        )
+      ) %in%
+      available_lulc
+    )
+  ){
+    stop("You included a numeric landcover class that is not in my_raster_data.")
+  }
+
+  tmp_lulc_cats <- unique(
+    unlist(
+      lulc_cats))
 
   sites <- my_points[,location_column]
 
@@ -81,8 +114,19 @@ cli::cli_h1("Reprojecting my_points to map projection")
     )
   )
 
+
+
   # if lulc_cats is a list
   if(is.list(lulc_cats)){
+    lulc_cats <- sapply(
+      lulc_cats,
+      function(x){
+        paste0(
+          "frac_",
+          x
+        )
+      }
+    )
     prop_extract <- apply(
       prop_extract,
       1,
@@ -93,7 +137,7 @@ cli::cli_h1("Reprojecting my_points to map projection")
             ifelse(
               length(y) == 1,
               x[y],
-              sum(x[y])
+              sum(x[y], na.rm = TRUE)
             )
         )
       }
@@ -107,9 +151,12 @@ cli::cli_h1("Reprojecting my_points to map projection")
 
   # if it is a numeric
   if(is.numeric(lulc_cats)){
+    lulc_cats <- paste0(
+      "frac_", lulc_cats
+    )
     prop_extract <- prop_extract[,lulc_cats]
   }
-  # if it's a names list
+  # if it's a named list
   if(!is.null(names(lulc_cats)) & is.list(lulc_cats)){
       colnames(prop_extract) <- names(lulc_cats)
   }
@@ -313,4 +360,7 @@ extract_polygon <- function(
   return(summary_data)
 }
 
+ignore_unused_imports <- function() {
+  terra::rast()
+}
 

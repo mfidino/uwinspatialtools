@@ -109,6 +109,15 @@ testthat::test_that(
     testthat::expect_error(
       f(
         my_points = sites,
+        location_column = "name",
+        my_buffer = 10,
+        my_raster_data = mat,
+        lulc_cats = 11
+      )
+    )
+    testthat::expect_error(
+      f(
+        my_points = sites,
         location_column = "names",
         my_buffer = 10,
         my_raster_data = mat,
