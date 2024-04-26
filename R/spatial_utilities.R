@@ -81,8 +81,19 @@ cli::cli_h1("Reprojecting my_points to map projection")
     )
   )
 
+
+
   # if lulc_cats is a list
   if(is.list(lulc_cats)){
+    lulc_cats <- sapply(
+      lulc_cats,
+      function(x){
+        paste0(
+          "frac_",
+          x
+        )
+      }
+    )
     prop_extract <- apply(
       prop_extract,
       1,
@@ -107,9 +118,12 @@ cli::cli_h1("Reprojecting my_points to map projection")
 
   # if it is a numeric
   if(is.numeric(lulc_cats)){
+    lulc_cats <- paste0(
+      "frac_", lulc_cats
+    )
     prop_extract <- prop_extract[,lulc_cats]
   }
-  # if it's a names list
+  # if it's a named list
   if(!is.null(names(lulc_cats)) & is.list(lulc_cats)){
       colnames(prop_extract) <- names(lulc_cats)
   }
