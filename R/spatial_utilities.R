@@ -55,35 +55,6 @@ extract_raster_prop <- function(
   my_raster_data,
   lulc_cats = NULL
 ){
-  # qaqc checks.
-
-  available_lulc <- c(
-    methods::slot(
-      my_raster_data,
-      methods::slotNames(my_raster_data)[1]
-    )$range_min,
-    methods::slot(
-      my_raster_data,
-      methods::slotNames(my_raster_data)[1]
-    )$range_max
-  )
-  available_lulc <- seq.int(
-    available_lulc[1],
-    available_lulc[2]
-  )
-
-  if(
-    !all(
-      unique(
-        unlist(
-          lulc_cats
-        )
-      ) %in%
-      available_lulc
-    )
-  ){
-    stop("You included a numeric landcover class that is not in my_raster_data.")
-  }
 
   tmp_lulc_cats <- unique(
     unlist(
@@ -149,6 +120,7 @@ cli::cli_h1("Reprojecting my_points to map projection")
     }
   }
 
+
   # if it is a numeric
   if(is.numeric(lulc_cats)){
     lulc_cats <- paste0(
@@ -159,6 +131,26 @@ cli::cli_h1("Reprojecting my_points to map projection")
   # if it's a named list
   if(!is.null(names(lulc_cats)) & is.list(lulc_cats)){
       colnames(prop_extract) <- names(lulc_cats)
+  }
+
+  # check to see which ones are fully NA
+  all_na <- apply(
+    prop_extract,
+    2,
+    function(x) all(is.na(x))
+  )
+  if(any(all_na)){
+    my_warning <- paste0(
+      "Some of the lulc_cats were not\n",
+      "present in the parts of the raster you queried.\n",
+      "Check the metadata of the raster you supplied to\n",
+      "ensure the LULC codes you input are correct.\n\n",
+      "The columns that generated this warning include:\n\n",
+      paste0(names(all_na)[all_na], collapse = "\n"),
+      "\n\nThese columns have all been set to 0."
+    )
+    warning(my_warning)
+    prop_extract[,all_na] <- 0
   }
 
   # create dataframe matching the sites with the extracted data
